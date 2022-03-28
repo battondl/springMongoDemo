@@ -2,7 +2,9 @@ package com.example.springMongoDemo.service;
 
 
 import com.example.springMongoDemo.dtos.Student;
+import com.example.springMongoDemo.repository.DepartmentRepository;
 import com.example.springMongoDemo.repository.StudentRepository;
+import com.example.springMongoDemo.repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +23,19 @@ public class StudentService {
     @Autowired
     StudentRepository studentRepository;
 
-    public Student createStudent(Student student) {
+    @Autowired
+    DepartmentRepository departmentRepository;
+
+    @Autowired
+    SubjectRepository subjectRepository;
+
+    public Student createStudent (Student student) {
+        if (student.getDepartment() != null) {
+            departmentRepository.save(student.getDepartment());
+        }
+        if (student.getSubjects() != null && student.getSubjects().size() > 0) {
+            subjectRepository.saveAll(student.getSubjects());
+        }
         return studentRepository.save(student);
     }
 
@@ -89,6 +103,15 @@ public class StudentService {
     public List<Student> nameStartsWith (String name) {
 
         return studentRepository.findByNameStartsWith(name);
+    }
+
+    public List<Student> byDepartmentId (String deptId) {
+
+        return studentRepository.findByDepartmentId(deptId);
+    }
+
+    public List<Student> getStudentByName (String name) {
+       return studentRepository.getByName(name);
     }
 
 }

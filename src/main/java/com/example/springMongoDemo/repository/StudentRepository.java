@@ -3,6 +3,7 @@ package com.example.springMongoDemo.repository;
 
 import com.example.springMongoDemo.dtos.Student;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,4 +27,10 @@ public interface StudentRepository extends MongoRepository<Student, String> {
 
     List<Student> findByNameStartsWith (String name);
 
+    List<Student> findByDepartmentId (String departmentId);
+
+    @Query("{\n" +
+            "    \"name\": \"?0\"\n" +
+            "}")
+    List<Student> getByName(String name);
 }

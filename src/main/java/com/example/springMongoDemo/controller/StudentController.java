@@ -100,4 +100,14 @@ public class StudentController {
 
         return studentService.nameStartsWith(name);
     }
+
+    @GetMapping("/byDepartmentId")
+    public List<Student> byDepartmentId(@RequestParam String departmentId) {
+        return studentService.byDepartmentId(departmentId);
+    }
+
+    @GetMapping("/getByName/{name}")
+    public List<Student> getStudentByName(@PathVariable String name) {
+        return studentService.getStudentByName(name);
+    }
 }
